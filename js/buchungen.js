@@ -325,7 +325,7 @@ function komprimiereBeleg(file) {
 async function scanMitGoogleVision(file) {
   const resultDiv = document.getElementById('scan-result');
 
-  if (!GOOGLE_VISION_KEY || GOOGLE_VISION_KEY === 'DEIN_GOOGLE_VISION_KEY') {
+  if (!GOOGLE_VISION_KEY || GOOGLE_VISION_KEY === 'AIzaSyA5xaAghqkKT2b3sL0fXWynF1IMQEaZyIw') {
     // Kein API-Key – manuelle Eingabe
     resultDiv.innerHTML = `
       <div style="background:var(--warning-light);border:1.5px solid var(--warning);border-radius:var(--radius);padding:14px;font-size:0.85rem;color:var(--text);">
@@ -519,4 +519,4 @@ function fileToBase64(file) {
 
 // ── Google Vision API Key ──
 // Eintragen nach Einrichtung in der Google Cloud Console
-const GOOGLE_VISION_KEY = 'DEIN_GOOGLE_VISION_KEY';
+const GOOGLE_VISION_KEY = 'AIzaSyA5xaAghqkKT2b3sL0fXWynF1IMQEaZyIw';
