@@ -3,6 +3,7 @@
   "short_name": "Haushaltsbuch",
   "description": "Persönliches Haushaltsbuch mit Sync",
   "start_url": "/Haushaltsbuch/",
+  "scope": "/Haushaltsbuch/",
   "display": "standalone",
   "background_color": "#f0f4f8",
   "theme_color": "#6c8ebf",
