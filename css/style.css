@@ -566,6 +566,20 @@ ul { list-style: none; }
   transition: var(--transition);
   margin-bottom: 16px;
 }
+.scanner-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.scanner-buttons .scanner-area {
+  flex: 1;
+  margin-bottom: 0;
+}
+@media (max-width: 600px) {
+  .scanner-buttons {
+    flex-direction: column;
+  }
+}
 .scanner-area:hover { border-color: var(--primary); background: var(--primary-light); }
 .scanner-icon { font-size: 3rem; margin-bottom: 12px; }
 .scanner-text { font-size: 0.9rem; color: var(--text-muted); }
