@@ -137,17 +137,59 @@ async function openBuchungModal(prefill = {}) {
         </div>
 
         <!-- Beleg Scanner -->
-        <div class="form-group">
-          <label class="form-label">📷 Beleg scannen (optional)</label>
-          <div class="scanner-area" onclick="document.getElementById('beleg-input').click()">
-            <div class="scanner-icon">📄</div>
-            <div class="scanner-text">Foto aufnehmen oder Datei wählen<br><small>Betrag, Datum & Händler werden automatisch erkannt</small></div>
-          </div>
-          <input type="file" id="beleg-input" accept="image/*" capture="environment" style="display:none" onchange="handleBelegUpload(this)">
-          <div id="beleg-preview-container"></div>
-          <div id="scan-result"></div>
-        </div>
+<div class="form-group">
+  <label class="form-label">
+    📷 Beleg scannen (optional)
+  </label>
 
+  <div class="scanner-buttons">
+
+    <div
+      class="scanner-area"
+      onclick="document.getElementById('beleg-camera').click()">
+
+      <div class="scanner-icon">📷</div>
+
+      <div class="scanner-text">
+        Foto aufnehmen
+      </div>
+
+    </div>
+
+    <div
+      class="scanner-area"
+      onclick="document.getElementById('beleg-gallery').click()">
+
+      <div class="scanner-icon">🖼️</div>
+
+      <div class="scanner-text">
+        Galerie / Dateien
+      </div>
+
+    </div>
+
+  </div>
+
+  <input
+    type="file"
+    id="beleg-camera"
+    accept="image/*"
+    capture="environment"
+    style="display:none"
+    onchange="handleBelegUpload(this)">
+
+  <input
+    type="file"
+    id="beleg-gallery"
+    accept="image/*"
+    style="display:none"
+    onchange="handleBelegUpload(this)">
+
+  <div id="beleg-preview-container"></div>
+
+  <div id="scan-result"></div>
+
+</div>
         <div style="display:flex;gap:10px;margin-top:8px;">
           ${prefill.id ? `<button class="btn btn-danger btn-sm" onclick="loescheBuchung('${prefill.id}')">🗑️ Löschen</button>` : ''}
           <button class="btn btn-secondary" onclick="closeModal()" style="flex:1">Abbrechen</button>
