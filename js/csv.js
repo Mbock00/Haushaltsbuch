@@ -5,7 +5,17 @@
 let erkannteCsvBuchungen = [];
 
 async function renderCsvImport() {
-  document.getElementById('view').innerHTML = `
+  const target = document.getElementById('screen-mehr');
+
+target.classList.add('active');
+
+document.querySelectorAll('.screen').forEach(screen => {
+  if (screen.id !== 'screen-mehr') {
+    screen.classList.remove('active');
+  }
+});
+
+target.innerHTML = `
     <div class="card">
       <h3>CSV-Import</h3>
 
