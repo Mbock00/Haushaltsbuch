@@ -322,14 +322,14 @@ function komprimiereBeleg(file) {
 }
 
 // ── Google Vision OCR ──
+// ── Google Vision OCR ──
 async function scanMitGoogleVision(file) {
   const resultDiv = document.getElementById('scan-result');
 
- if (
-  !GOOGLE_VISION_KEY ||
-  GOOGLE_VISION_KEY === 'DEIN_GOOGLE_VISION_KEY'
-)
-    // Kein API-Key – manuelle Eingabe
+  if (
+    !GOOGLE_VISION_KEY ||
+    GOOGLE_VISION_KEY === 'DEIN_GOOGLE_VISION_KEY'
+  ) {
     resultDiv.innerHTML = `
       <div style="background:var(--warning-light);border:1.5px solid var(--warning);border-radius:var(--radius);padding:14px;font-size:0.85rem;color:var(--text);">
         ⚠️ <strong>Kein Scanner-Key hinterlegt</strong><br>
@@ -358,24 +358,42 @@ async function scanMitGoogleVision(file) {
       }
     );
 
-    if (!response.ok) throw new Error(`API Fehler: ${response.status}`);
+    if (!response.ok) {
+      throw new Error(`API Fehler: ${response.status}`);
+    }
+
     const data = await response.json();
     const text = data.responses?.[0]?.fullTextAnnotation?.text || '';
 
-    if (!text) throw new Error('Kein Text erkannt');
+    if (!text) {
+      throw new Error('Kein Text erkannt');
+    }
 
     // Text auswerten
     setScanStep('analyse');
     const ergebnis = analysiereKassenzettel(text);
 
     // Felder befüllen
-    if (ergebnis.betrag)    document.getElementById('buchung-betrag').value = ergebnis.betrag;
-    if (ergebnis.datum)     document.getElementById('buchung-datum').value  = ergebnis.datum;
-    if (ergebnis.haendler)  document.getElementById('buchung-beschr').value = ergebnis.haendler;
+    if (ergebnis.betrag) {
+      document.getElementById('buchung-betrag').value = ergebnis.betrag;
+    }
+
+    if (ergebnis.datum) {
+      document.getElementById('buchung-datum').value = ergebnis.datum;
+    }
+
+    if (ergebnis.haendler) {
+      document.getElementById('buchung-beschr').value = ergebnis.haendler;
+    }
+
     if (ergebnis.kategorie) {
       const sel = document.getElementById('buchung-kategorie');
+
       for (let opt of sel.options) {
-        if (opt.value === ergebnis.kategorie) { sel.value = ergebnis.kategorie; break; }
+        if (opt.value === ergebnis.kategorie) {
+          sel.value = ergebnis.kategorie;
+          break;
+        }
       }
     }
 
@@ -383,21 +401,25 @@ async function scanMitGoogleVision(file) {
       <div class="scanner-result">
         ✅ <strong>Erkannt:</strong>
         ${ergebnis.haendler ? `<strong>${ergebnis.haendler}</strong>` : ''}
-        ${ergebnis.betrag   ? `· <strong>${formatEuro(ergebnis.betrag)}</strong>` : ''}
-        ${ergebnis.datum    ? `· ${formatDatum(ergebnis.datum)}` : ''}
-        <br><small style="color:var(--text-muted);">Bitte Angaben prüfen und ggf. korrigieren</small>
+        ${ergebnis.betrag ? `· <strong>${formatEuro(ergebnis.betrag)}</strong>` : ''}
+        ${ergebnis.datum ? `· ${formatDatum(ergebnis.datum)}` : ''}
+        <br>
+        <small style="color:var(--text-muted);">
+          Bitte Angaben prüfen und ggf. korrigieren
+        </small>
       </div>`;
 
   } catch (err) {
     console.error('Scanner Fehler:', err);
+
     resultDiv.innerHTML = `
-      <div style="background:var(--warning-light);border:1.5px solid var(--warning);border-radius:var(--radius);padding:14px;font-size:0.85rem;">
-        ⚠️ Automatische Erkennung fehlgeschlagen – bitte manuell ausfüllen.<br>
+      <div style="background:var(--warning-light);border:1.5px solid var(--warning);border-radius:var(--radius);padding:14px;font-size:0.85rem;color:var(--text);">
+        ⚠️ <strong>Automatische Erkennung fehlgeschlagen</strong><br>
+        Bitte Betrag, Datum und Beschreibung manuell eintragen.<br>
         <small style="color:var(--text-muted);">Beleg wurde gespeichert ✅</small>
       </div>`;
   }
 }
-
 // ── Kassenzettel-Text analysieren ──
 function analysiereKassenzettel(text) {
   const zeilen = text.split('\n').map(z => z.trim()).filter(z => z);
