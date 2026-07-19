@@ -25,12 +25,11 @@
 <h1>Haushaltsbuch</h1>
 <p>Deine Finanzen im Griff</p>
 </div>
-<!-- Tabs -->
 <div class="auth-tabs">
 <button class="auth-tab active" data-tab="login" onclick="switchAuthTab('login')">Anmelden</button>
 <button class="auth-tab" data-tab="register" onclick="switchAuthTab('register')">Registrieren</button>
 </div>
-<!-- Login Form -->
+<!-- Login -->
 <form class="auth-form" id="form-login" onsubmit="handleLogin(event)">
 <div class="form-group">
 <label class="form-label">E-Mail</label>
@@ -40,14 +39,10 @@
 <label class="form-label">Passwort</label>
 <input autocomplete="current-password" class="form-input" id="login-password" placeholder="••••••••" required="" type="password"/>
 </div>
-<button class="btn btn-primary" id="btn-login" type="submit">
-        🔑 Anmelden
-      </button>
-<button class="btn btn-secondary" onclick="handlePasswordReset()" style="font-size:0.85rem;" type="button">
-        Passwort vergessen?
-      </button>
+<button class="btn btn-primary" id="btn-login" type="submit">🔑 Anmelden</button>
+<button class="btn btn-secondary" onclick="handlePasswordReset()" style="font-size:0.85rem;" type="button">Passwort vergessen?</button>
 </form>
-<!-- Register Form -->
+<!-- Register -->
 <form class="auth-form hidden" id="form-register" onsubmit="handleRegister(event)">
 <div class="form-group">
 <label class="form-label">Dein Name</label>
@@ -68,13 +63,9 @@
 <div class="form-group">
 <label class="form-label">Einladungscode</label>
 <input class="form-input" id="reg-code" placeholder="Code eingeben" required="" type="text"/>
-<div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">
-          Den Code erhältst du vom App-Administrator
-        </div>
+<div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Den Code erhältst du vom App-Administrator</div>
 </div>
-<button class="btn btn-primary" id="btn-register" type="submit">
-        ✅ Konto erstellen
-      </button>
+<button class="btn btn-primary" id="btn-register" type="submit">✅ Konto erstellen</button>
 </form>
 </div>
 </div>
@@ -92,34 +83,59 @@
 </div>
 </div>
 <div class="header-right">
-<!-- PWA Install Button (nur Android) -->
 <button class="btn-icon" id="btn-install" onclick="installPWA()" style="display:none;" title="App installieren">📲</button>
-<!-- Avatar -->
-<div class="btn-icon profil-avatar" id="header-avatar" onclick="navigateTo('mehr');setMehrTab('profil')" style="background:#6c8ebf;color:white;font-weight:700;font-size:1rem;cursor:pointer;">
-        ?
+<div class="btn-icon profil-avatar" id="header-avatar" onclick="navigateTo('mehr');setMehrTab('profil')" style="background:#6c8ebf;color:white;font-weight:700;font-size:1rem;cursor:pointer;">?
       </div>
 </div>
 </header>
+<!-- Desktop Sidebar -->
+<nav class="app-sidebar" id="app-sidebar">
+<div class="sidebar-label">Hauptmenü</div>
+<button class="sidebar-item active" data-screen="dashboard" onclick="navigateTo('dashboard')">
+<span class="nav-icon">🏠</span> Dashboard
+    </button>
+<button class="sidebar-item" data-screen="buchungen" onclick="navigateTo('buchungen')">
+<span class="nav-icon">📝</span> Buchungen
+    </button>
+<button class="sidebar-item" data-screen="auswertungen" onclick="navigateTo('auswertungen')">
+<span class="nav-icon">📊</span> Auswertungen
+    </button>
+<div class="sidebar-divider"></div>
+<div class="sidebar-label">Verwaltung</div>
+<button class="sidebar-item" onclick="navigateTo('mehr');setMehrTab('dauerauftraege')">
+<span class="nav-icon">🔄</span> Daueraufträge
+    </button>
+<button class="sidebar-item" onclick="navigateTo('mehr');setMehrTab('sparziele')">
+<span class="nav-icon">🐷</span> Sparziele
+    </button>
+<button class="sidebar-item" onclick="navigateTo('mehr');setMehrTab('budget')">
+<span class="nav-icon">💰</span> Budgetplanung
+    </button>
+<div class="sidebar-divider"></div>
+<div class="sidebar-label">Konto</div>
+<button class="sidebar-item" onclick="navigateTo('mehr');setMehrTab('profil')">
+<span class="nav-icon">👤</span> Profil
+    </button>
+<button class="sidebar-item" onclick="handleLogout()">
+<span class="nav-icon">🚪</span> Abmelden
+    </button>
+</nav>
 <!-- Main Content -->
 <main class="app-main">
-<!-- Dashboard -->
 <div class="screen active" id="screen-dashboard">
 <div class="loading"><div class="spinner"></div></div>
 </div>
-<!-- Buchungen -->
 <div class="screen" id="screen-buchungen">
 <div class="loading"><div class="spinner"></div></div>
 </div>
-<!-- Auswertungen -->
 <div class="screen" id="screen-auswertungen">
 <div class="loading"><div class="spinner"></div></div>
 </div>
-<!-- Mehr (Daueraufträge, Sparziele, Budget, Profil) -->
 <div class="screen" id="screen-mehr">
 <div class="loading"><div class="spinner"></div></div>
 </div>
 </main>
-<!-- Bottom Navigation -->
+<!-- Bottom Navigation (Mobile) -->
 <nav class="bottom-nav">
 <button class="nav-item active" data-screen="dashboard" onclick="navigateTo('dashboard')">
 <span class="nav-icon">🏠</span>
@@ -138,19 +154,14 @@
 <span class="nav-label">Mehr</span>
 </button>
 </nav>
-</div><!-- /app -->
-<!-- Modal Overlay -->
+</div>
+<!-- Modal -->
 <div class="modal-overlay" id="modal-overlay" onclick="handleModalClick(event)"></div>
-<!-- Toast Container -->
+<!-- Toast -->
 <div class="toast-container" id="toast-container"></div>
-<!-- ══════════════════════════════════════════
-     SCRIPTS
-══════════════════════════════════════════ -->
-<!-- Supabase -->
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<!-- App Scripts -->
 <script src="js/supabase.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/buchungen.js"></script>
@@ -160,16 +171,11 @@
 <script src="js/sparziele.js"></script>
 <script src="js/app.js"></script>
 <script>
-// Modal-Klick außerhalb schließt
 function handleModalClick(e) {
   if (e.target === document.getElementById('modal-overlay')) closeModal();
 }
-
-// iOS: Zurück-Geste abfangen
 window.addEventListener('popstate', () => {
-  if (document.getElementById('modal-overlay').classList.contains('open')) {
-    closeModal();
-  }
+  if (document.getElementById('modal-overlay').classList.contains('open')) closeModal();
 });
 </script>
 </body>

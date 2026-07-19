@@ -134,4 +134,4 @@ function mapAuthError(msg) {
 }
 
 // ── Einladungscode (änderbar) ──
-const INVITE_CODE = 'n.e.V.Bock';
+const INVITE_CODE = 'Familie2026';
